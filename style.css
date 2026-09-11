@@ -1,0 +1,395 @@
+/* =========================================================
+   Design tokens — "غرفة قراءة ليلية" (a night reading room)
+   ========================================================= */
+:root {
+  --accent: #b8905a; /* brass / gold thread, swappable via palette */
+}
+
+[data-theme="night"] {
+  --room-1: #10121a;
+  --room-2: #1a1e2b;
+  --room-vignette: rgba(0, 0, 0, 0.55);
+
+  --paper: #f4ecd8;
+  --paper-edge: #e6d9b8;
+  --ink: #241d15;
+  --ink-soft: #7c6f56;
+
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel-border: rgba(244, 236, 216, 0.14);
+  --room-ink: #ece6d8;
+  --room-ink-soft: #9a927e;
+
+  color-scheme: dark;
+}
+
+[data-theme="day"] {
+  --room-1: #eee6d4;
+  --room-2: #e2d6b8;
+  --room-vignette: rgba(255, 255, 255, 0.25);
+
+  --paper: #fffdf7;
+  --paper-edge: #ecdfc0;
+  --ink: #241d15;
+  --ink-soft: #6b5f4a;
+
+  --panel: rgba(36, 29, 21, 0.05);
+  --panel-border: rgba(36, 29, 21, 0.12);
+  --room-ink: #2a2318;
+  --room-ink-soft: #6b5f4a;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Tajawal", sans-serif;
+  color: var(--room-ink);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, var(--room-2), transparent),
+    var(--room-1);
+  min-height: 100vh;
+  transition: background 0.5s ease, color 0.4s ease;
+}
+
+/* subtle paper-grain vignette over the whole room */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 40%, var(--room-vignette) 140%);
+  z-index: 0;
+}
+
+.room {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 30px 20px 44px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Header ===== */
+.room-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-family: "Amiri", serif;
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  margin: 0;
+  font-weight: 400;
+  color: var(--room-ink);
+}
+
+.tagline {
+  color: var(--room-ink-soft);
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
+/* ===== Theme toggle ===== */
+.theme-toggle {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.2s ease;
+  z-index: 10;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+}
+
+/* ===== Stage ===== */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+/* ===== Categories ===== */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.cat-btn {
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.85rem;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  color: var(--room-ink-soft);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.cat-btn.active,
+.cat-btn:hover {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ===== Card stack — layered paper illusion ===== */
+.card-stack {
+  position: relative;
+  width: 100%;
+}
+
+.stack-sheet {
+  position: absolute;
+  inset: 0;
+  background: var(--paper-edge);
+  border-radius: 4px;
+}
+
+.sheet-1 {
+  transform: rotate(-2.2deg) translateY(4px);
+  opacity: 0.9;
+}
+
+.sheet-2 {
+  transform: rotate(2.6deg) translateY(7px);
+  opacity: 0.6;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+  padding: 50px 42px 34px;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 22px 50px -18px rgba(0, 0, 0, 0.45);
+  /* torn top edge */
+  clip-path: polygon(
+    0% 2.5%, 5% 0.4%, 10% 2%, 15% 0.2%, 20% 2.3%, 25% 0.6%, 30% 2%,
+    35% 0.3%, 40% 2.4%, 45% 0.5%, 50% 1.8%, 55% 0.3%, 60% 2.2%,
+    65% 0.5%, 70% 2%, 75% 0.3%, 80% 2.4%, 85% 0.5%, 90% 2%, 95% 0.3%,
+    100% 2%, 100% 100%, 0% 100%
+  );
+}
+
+.quote-mark {
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  font-family: "Amiri", serif;
+  font-size: 3.6rem;
+  color: var(--accent);
+  opacity: 0.55;
+  line-height: 1;
+  transform: scaleX(-1); /* mirror for RTL opening quote feel */
+}
+
+.quote-text {
+  font-family: "Amiri", serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 4vw, 1.55rem);
+  line-height: 1.85;
+  margin: 0;
+  min-height: 3em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.quote-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quote-rule {
+  width: 56px;
+  height: 2px;
+  background: var(--accent);
+  margin: 22px 0 14px;
+  transition: background 0.3s ease;
+}
+
+.quote-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.quote-author {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.quote-tag {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  border: 1px solid currentColor;
+  padding: 3px 11px;
+  border-radius: 999px;
+  opacity: 0.75;
+}
+
+/* ===== Toolbar ===== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn {
+  font-family: "Tajawal", sans-serif;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  flex: 1;
+  max-width: 250px;
+  padding: 14px 22px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #1c140b;
+  background: var(--accent);
+  box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-icon {
+  width: 46px;
+  height: 46px;
+  font-size: 1.05rem;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  color: var(--room-ink);
+}
+
+.btn-icon:hover {
+  background: var(--panel-border);
+}
+
+/* ===== Palette (accent thread color) ===== */
+.palette {
+  display: flex;
+  gap: 10px;
+}
+
+.swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: var(--sw);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.15);
+}
+
+.swatch.active {
+  border-color: var(--room-ink);
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--room-ink);
+  color: var(--room-1);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== Footer ===== */
+.room-footer {
+  text-align: center;
+  margin-top: 34px;
+  color: var(--room-ink-soft);
+  font-size: 0.78rem;
+}
+
+/* ===== Accessibility ===== */
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .card {
+    padding: 44px 26px 28px;
+  }
+  .quote-mark {
+    font-size: 2.9rem;
+    left: 20px;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+  }
+}

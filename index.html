@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هَمسات — اقتباس لكل لحظة</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Amiri:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="night">
+  <div class="room">
+
+    <button id="themeToggle" class="theme-toggle" aria-label="تبديل بين وضع الليل والنهار">
+      <span id="themeIcon">☀️</span>
+    </button>
+
+    <header class="room-header">
+      <h1 class="logo">هَمسات</h1>
+      <p class="tagline">اقتباس لكل لحظة، من مكتبة تضم آلاف الأقوال</p>
+    </header>
+
+    <main class="stage">
+
+      <div class="categories" id="categories">
+        <button class="cat-btn active" data-cat="all">الكل</button>
+        <button class="cat-btn" data-cat="life">الحياة</button>
+        <button class="cat-btn" data-cat="success">النجاح</button>
+        <button class="cat-btn" data-cat="love">الحب</button>
+        <button class="cat-btn" data-cat="wisdom">حكمة</button>
+      </div>
+
+      <!-- البطاقة: تصميم "الورقة المطبوعة" -->
+      <div class="card-stack">
+        <div class="stack-sheet sheet-2" aria-hidden="true"></div>
+        <div class="stack-sheet sheet-1" aria-hidden="true"></div>
+
+        <section class="card" id="quoteCard">
+          <span class="quote-mark" aria-hidden="true">”</span>
+          <p class="quote-text" id="quoteText">جاري تحضير الاقتباس الأول...</p>
+          <div class="quote-rule" aria-hidden="true"></div>
+          <div class="quote-footer">
+            <span class="quote-author" id="quoteAuthor"></span>
+            <span class="quote-tag" id="quoteTag"></span>
+          </div>
+        </section>
+      </div>
+
+      <div class="toolbar">
+        <button id="newQuoteBtn" class="btn btn-primary">
+          <span>اقتباس جديد</span>
+        </button>
+        <button id="copyBtn" class="btn btn-icon" aria-label="نسخ الاقتباس" title="نسخ">📋</button>
+        <button id="downloadBtn" class="btn btn-icon" aria-label="تحميل كصورة" title="تحميل">⬇️</button>
+        <button id="shareBtn" class="btn btn-icon" aria-label="مشاركة" title="مشاركة">🔗</button>
+      </div>
+
+      <div class="palette" id="palette" role="group" aria-label="لون الشريط المميز">
+        <button class="swatch active" style="--sw:#b8905a" data-p="0" aria-label="ذهبي نحاسي"></button>
+        <button class="swatch" style="--sw:#7a2e3a" data-p="1" aria-label="عنّابي"></button>
+        <button class="swatch" style="--sw:#2f5d4f" data-p="2" aria-label="أخضر غابي"></button>
+        <button class="swatch" style="--sw:#2c3e63" data-p="3" aria-label="كحلي"></button>
+        <button class="swatch" style="--sw:#8a4a2f" data-p="4" aria-label="طيني"></button>
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </main>
+
+    <footer class="room-footer">
+      <p id="sourceNote">اقتباس من مكتبة تضم أكثر من 5900 قول مأثور</p>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
